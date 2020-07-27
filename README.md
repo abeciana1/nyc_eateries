@@ -37,7 +37,7 @@ Review - star_rating, desc, created_at, updated_at, user_id, restaurant_id
 Cuisine - name, user_id, restaurant_id
 
 
-
+* this is a test
 
 -----
 Congratulations, you're at the end of module one! You've worked crazy hard to get here and have learned a ton.
