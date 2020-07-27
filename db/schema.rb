@@ -18,6 +18,20 @@ ActiveRecord::Schema.define(version: 2020_07_27_203527) do
     t.integer "restaurant_id"
   end
 
+  create_table "restaurants", force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.string "menu_link"
+    t.string "website"
+    t.string "yelp_page"
+    t.string "hours"
+    t.string "phone"
+    t.text "about"
+    t.string "neighborhood"
+    t.boolean "credit_card"
+    t.boolean "reservations"
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.string "star_rating", default: "*"
     t.string "desc", default: " "
@@ -25,6 +39,13 @@ ActiveRecord::Schema.define(version: 2020_07_27_203527) do
     t.datetime "updated_at"
     t.integer "user_id"
     t.integer "restaurant_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "username"
+    t.string "password"
   end
 
 end
