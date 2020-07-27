@@ -6,9 +6,9 @@ class CreateRestaurant < ActiveRecord::Migration[6.0]
       t.string :menu_link
       t.string :website
       t.string :yelp_page
-      t.datetime :hours
+      t.string :hours
       t.string :phone
-      t.string :about
+      t.text :about
       t.string :neighborhood
       t.boolean :credit_card
       t.boolean :reservations
