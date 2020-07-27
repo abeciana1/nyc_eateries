@@ -3,13 +3,13 @@
 
 ## Class Associations
 
-User has many reviews
-Restaurant has many reviews
-Review belongs to user and restaurant.
-Community has many users
-Community has many restaurants, through cuisine
-Restaurants has many communities, through cuisine
-Cuisine belongs to community and restaurant
+* User has many reviews
+* Restaurant has many reviews
+* Review belongs to user and restaurant.
+* Community has many users
+* Community has many restaurants, through cuisine
+* Restaurants has many communities, through cuisine
+* Cuisine belongs to community and restaurant
 
 
 ## User Stories
