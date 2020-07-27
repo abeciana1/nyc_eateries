@@ -12,12 +12,6 @@
 
 ActiveRecord::Schema.define(version: 2020_07_27_203527) do
 
-  create_table "cuisines", force: :cascade do |t|
-    t.string "name"
-    t.integer "user_id"
-    t.integer "restaurant_id"
-  end
-
   create_table "restaurants", force: :cascade do |t|
     t.string "name"
     t.string "address"
