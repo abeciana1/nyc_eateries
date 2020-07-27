@@ -1,5 +1,33 @@
-# Module One Final Project Guidelines
+# NYC Eateries
 
+
+## Class Associations
+
+User has many reviews
+Restaurant has many reviews
+Review belongs to user and restaurant.
+Community has many users
+Community has many restaurants, through cuisine
+Restaurants has many communities, through cuisine
+Cuisine belongs to community and restaurant
+
+
+## User Stories
+
+* As a user, I want to be able to search for restaurants.
+* As a user, I want to be able to create, update, and delete reviews for a specific restaurant
+* As a user, I want to receive recommendations based on similar attributes of a restaurant
+* As a user, I want to see all the details and reviews for a specific restaurant
+* As a user, I want to know the club that I’m associated with.
+* As a user, I want to know the top 5 or 10 restaurants based on my community’s cuisine.
+
+
+
+
+
+
+
+-----
 Congratulations, you're at the end of module one! You've worked crazy hard to get here and have learned a ton.
 
 For your final project, we'll be building a Command Line database application.
