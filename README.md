@@ -6,10 +6,9 @@
 * User has many reviews
 * Restaurant has many reviews
 * Review belongs to user and restaurant.
-* Community has many users
-* Community has many restaurants, through cuisine
-* Restaurants has many communities, through cuisine
-* Cuisine belongs to community and restaurant
+* User has many cuisines
+* Restaurants has many cuisine
+* Cuisine belongs to user and restaurant
 
 
 ## User Stories
@@ -18,11 +17,24 @@
 * As a user, I want to be able to create, update, and delete reviews for a specific restaurant
 * As a user, I want to receive recommendations based on similar attributes of a restaurant
 * As a user, I want to see all the details and reviews for a specific restaurant
-* As a user, I want to know the club that I’m associated with.
+* As a user, I want to be able to create an account and login to it.
+* As a user, I want to know the cuisine that I’m associated with.
 * As a user, I want to know the top 5 or 10 restaurants based on my community’s cuisine.
 
+## Attributes
+
+### User
+User - first_name, last_name, username, password
+
+### Restaurant
+Restaurant - name, address, menu_link, website, yelp_page, hours, phone, about, neighborhood, credit_card, reservations
+
+### Review
+Review - star_rating, desc, created_at, updated_at, user_id, restaurant_id
 
 
+### Cuisine
+Cuisine - name, user_id, restaurant_id
 
 
 
