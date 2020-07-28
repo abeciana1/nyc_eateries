@@ -2,8 +2,10 @@ class Restaurant < ActiveRecord::Base
   has_many :reviews
   has_many :users, through: :reviews
 
-  def self.find_restaurant_by_name(name)
-    result = all.where(name: name)
+  def self.find_restaurant_by_name
+    puts "What is the name of restaurant you are looking for?" 
+    input = STDIN.gets.chomp
+    result = all.where(name: input)
     search_result(result)
     result
   end
