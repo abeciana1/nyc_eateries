@@ -23,7 +23,7 @@ class CLI
                 CLI.create_account
             when "login"
                 logged_in = User.login
-                binding.pry
+                # binding.pry
                 CLI.main_menu(logged_in)
                 puts "\n"
                 puts "\n"
@@ -89,27 +89,29 @@ class CLI
     # end
 
     def self.main_menu(logged_in)
-        binding.pry
+        # binding.pry
         logged_response = CLI.main_options(logged_in)
         logged_input = gets.chomp
 
         case logged_input
-        when "1"
+        when "--search"
             puts "Nothing yet" #! Create
-        when "2"
-            logged_in.update_review
+        when "--update_review"
+            logged_in.check_user_has_reviews ? "Sorry, you don't seem to have any reviews yet, please check out some restaurants near you and a create one." : logged_in.update_review
+            # binding.pry
             CLI.main_options(logged_in)
-        when "3"
-            puts "Nothing yet" #! Create
-        when "4"
+        when "--remove_review"
+            logged_in.remove_review
+            CLI.main_options(logged_in)
+        when "something here"
             puts "Nothing yet" #! Create
         when "main"
-            # CLI.main_options(logged_in)
-            "Nothing yet" #! Create
+            CLI.main_options(logged_in)
+            # "Nothing yet" #! Create
         when "exit"
             exit
         else
-            puts "Sorry, we counldn't understand your request, please choose one of the numbers above. Thanks!"
+            puts "Sorry, we counldn't understand your request, please choose one of the commands above. Thanks!"
         end
 
         # if logged_input != "1" && logged_input != "2" && logged_input != "3" && logged_input != "4" && logged_input != "main"
@@ -126,7 +128,7 @@ class CLI
             puts "No problem, we'll return you to the main menu options!"
             CLI.main_options(logged_in)
         when "N" || "n"
-            puts "No problem, please login when you would like to do something else! Goodbye, #{logged_in.fist_name}!"
+            puts "No problem, please login when you would like to do something else! Goodbye, #{logged_in.first_name}!"
             exit
         end
 
@@ -144,16 +146,16 @@ class CLI
         # exit
     end
 
-    def self.main_options(username)
-        binding.pry
-        puts "Hey #{username.first_name}, here's a menu of options to choose from:"
+    def self.main_options(user)
+        # binding.pry
+        puts "Hey #{user.first_name}, here's a menu of options to choose from:"
         puts "\n"
-        puts "Press 1 - Search for restaurants" # * 
-        puts "Press 2 - Update One Of Your Reviews" 
-        puts "Press 3 - "
+        puts "'--search' -- to serach for restaurants " 
+        puts "'--update_review' -- to update one of your past reviews." 
+        puts "'--remove_review' -- to delete one of your past reviews."
         puts "Press 4 - "
         puts "\n"
-        puts "If you were need to refer back here to the main menu, please just type 'main'".yellow
+        puts "If you were need to refer back here to the main menu, please just type 'main' instead of one of the numbered choices".yellow
     end
 
 
