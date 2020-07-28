@@ -8,6 +8,18 @@ class Restaurant < ActiveRecord::Base
     result
   end
 
+  def self.find_restaurant_by_neighborhood
+    list = Restaurant.all.map(&:neighborhood).uniq.sort
+    puts "Choose a location from the list below:"
+    list.each_with_index { |neighborhood, index| 
+      puts "#{index + 1}: #{neighborhood}"
+    }
+    input = STDIN.gets.chomp.to_i
+    result = all.where(neighborhood: list[input - 1])
+    search_result(result)
+    result
+  end
+
   def self.search_result(restaurants)
     case restaurants.count
     when 0
