@@ -13,4 +13,11 @@ class Restaurant < ActiveRecord::Base
       sum + review.star_rating
     }.to_f / reviews.count
   end
+
+  def self.recommendation(cuisine)
+    list = all.where(cuisine_id: cuisine.id)
+      .select {|r| r.average_star_count >= 4 }
+      .sort_by { |r| !r.average_star_count }
+      .take(5)
+  end
 end
