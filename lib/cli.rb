@@ -91,13 +91,17 @@ class CLI
 
         case logged_input
         when "1" #search
-            puts "Nothing yet" #! Create
+            # Restaurant.search_result()
         when "2" #update
             logged_in.check_user_has_reviews 
             CLI.main_options(logged_in)
         when "3" #remove
             logged_in.remove_review
             CLI.main_options(logged_in)
+        when "4" #recommendations
+            puts "Type in the name of the cuisine that you would like to have:"
+            cuisine_input = gets.chomp
+            Restaurant.recommendation(Cuisine.find_by(name: cuisine_input))
         when "something here" #change password
             puts "Nothing yet" #! Create
         when "main"
@@ -145,14 +149,24 @@ class CLI
         # binding.pry
         puts "Hey #{user.first_name}, here's a menu of options to choose from:"
         puts "\n"
-        puts "Press 1 -- to serach for restaurants " 
+        puts "Press 1 -- to receive recommendations" 
         puts "Press 2 -- to update one of your past reviews." 
         puts "Press 3 -- to delete one of your past reviews."
-        puts "Press 4 - "
+        puts "Press 4 -- to go to restaurant search menu"
         puts "\n"
         puts "If you were need to refer back here to the main menu, please just type 'main' instead of one of the numbered choices".yellow
     end
 
-
+    def self.restaurant_search_menu(user)
+        puts "Hey #{user.first_name}, here's a menu of options to choose from:"
+        puts "\n"
+        puts "Press 1 -- to search by name." 
+        puts "Press 2 -- to search by neighborhood." #
+        puts "Press 3 -- to recieve a random restaurant." 
+                #type in a neighborhood, filter 
+                #Restaurant.all.sample
+        puts "Press 4 -- to receive curated cuisine recommendations." 
+        puts "\n"
+    end
 
 end
