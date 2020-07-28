@@ -23,8 +23,6 @@
 <!-- TODO --> Restaurant#average_star_count - count the number of stars and find average out of 5 (Junko)
 <!-- TODO --> Restaurant.recommendation(cuisine) -- use Restaurant#average_star_count / returns top 5 or 10 restaurants with an average star rating of over 4 star && matches the cuisine argument (Junko)
 
-testing
-
 ## Attributes
 
 ### User

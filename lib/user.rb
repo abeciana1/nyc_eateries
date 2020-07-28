@@ -6,6 +6,16 @@ class User < ActiveRecord::Base
         "#{self.first_name} #{self.last_name}"        
     end
 
+    def self.login
+        puts "Hey, what's your username?"
+        username_input = STDIN.gets.chomp
+        puts "Thanks, please type in your password:"
+        password_input = STDIN.gets.chomp
+        logged_in = self.all.find do |user|
+            user.username == username_input && user.password == password_input
+        end 
+    end
+
     def write_review(restaurant)
         puts "How many stars do you rate this restaurant? Enter the number."
         rating = gets.chomp
@@ -95,6 +105,14 @@ class User < ActiveRecord::Base
     end
 
     private
+
+    def check_username(username)
+        if self.username == username
+            true
+        else
+            false
+        end
+    end
 
     def check_password(password)
         if self.password == password
