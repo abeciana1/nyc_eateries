@@ -19,5 +19,9 @@ review1 = Review.find_or_create_by(star_rating: 5, desc: "food was good", user_i
 
 # * Community
 
+alex.remove_review
+
+alex.reviews
+
 
 binding.pry

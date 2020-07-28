@@ -74,36 +74,31 @@ class CLI
         puts "What's your first name?"
         user_first_name = gets.chomp
         puts "Thanks, #{user_first_name}, what's your last name?"
+        user_last_name = gets.chomp
         puts "Please create a username:"
         username_create = gets.chomp
         puts "One more thing, please create a password:"
         user_password_create = gets.chomp
-        User.create(name: "#{user_first_name}", username: "#{username_create}", password: "#{user_password_create}")
+        User.create(first_name: user_first_name, last_name: user_last_name, username: username_create, password: user_password_create)
         puts "Thanks, #{user_first_name}, thanks for creating your account."
         puts "We're going to exit you out of the app now and then you can use the 'login' option."
-        exit
+        CLI.run
     end
 
-    # def self.welcome_back(user)
-    #     binding.pry
-    # end
-
     def self.main_menu(logged_in)
-        # binding.pry
         logged_response = CLI.main_options(logged_in)
         logged_input = gets.chomp
 
         case logged_input
-        when "--search"
+        when "1" #search
             puts "Nothing yet" #! Create
-        when "--update_review"
-            logged_in.check_user_has_reviews ? "Sorry, you don't seem to have any reviews yet, please check out some restaurants near you and a create one." : logged_in.update_review
-            # binding.pry
+        when "2" #update
+            logged_in.check_user_has_reviews 
             CLI.main_options(logged_in)
-        when "--remove_review"
+        when "3" #remove
             logged_in.remove_review
             CLI.main_options(logged_in)
-        when "something here"
+        when "something here" #change password
             puts "Nothing yet" #! Create
         when "main"
             CLI.main_options(logged_in)
@@ -138,9 +133,9 @@ class CLI
             puts "Otherwise, you can exit and then log back in later if there's a specific task that you would like to do. Thanks!"
             puts "\n"
             CLI.main_options(logged_in)
-            if test
+            # if test
                 
-            end
+            # end
         end
         # puts "It seems like we're in an endless loop here, please log back in if there's a specific task that you would like to do. Thanks!"
         # exit
@@ -150,9 +145,9 @@ class CLI
         # binding.pry
         puts "Hey #{user.first_name}, here's a menu of options to choose from:"
         puts "\n"
-        puts "'--search' -- to serach for restaurants " 
-        puts "'--update_review' -- to update one of your past reviews." 
-        puts "'--remove_review' -- to delete one of your past reviews."
+        puts "Press 1 -- to serach for restaurants " 
+        puts "Press 2 -- to update one of your past reviews." 
+        puts "Press 3 -- to delete one of your past reviews."
         puts "Press 4 - "
         puts "\n"
         puts "If you were need to refer back here to the main menu, please just type 'main' instead of one of the numbered choices".yellow

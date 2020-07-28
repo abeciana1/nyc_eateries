@@ -42,12 +42,12 @@ class User < ActiveRecord::Base
     end
 
     def check_user_has_reviews
-        if self.reviews == nil || [] 
-            # "Sorry, you don't seem to have any reviews yet, please check out some restaurants near you and a create one."
+        if self.reviews == nil || self.reviews == [] 
+            puts "Sorry, you don't seem to have any reviews yet, please check out some restaurants near you and a create one."
             puts "We're checking our database."
         else
-            # self.update_review
-            puts "Looks like you have #{self.reviews.count} reviews."
+            puts "Looks like you have #{self.reviews.count} review(s)."
+            self.update_review
         end
     end
 
@@ -103,7 +103,7 @@ class User < ActiveRecord::Base
         puts "Please review the following before deleting your review:"
         puts "=========================================================="
         puts "\n"
-        puts "You rated #{rev.star_rating} stars out of 5 star"
+        puts "You rated #{rev.restaurant.name} #{rev.star_rating} stars out of 5 stars."
         puts "\n"
         puts "Your description was: #{rev.desc}"
         puts "=========================================================="
@@ -115,7 +115,7 @@ class User < ActiveRecord::Base
             rev.delete
             puts "Your review has been deleted."
         when "N" || "n"
-            puts "No problem, we'll send you bakc to the main menu."
+            puts "No problem, we'll send you back to the main menu."
         end
     end
 
@@ -134,7 +134,7 @@ class User < ActiveRecord::Base
 
     def change_password(old_password, new_password)
         if check_password(old_password)
-            self.password = new_password
+            self.update(password: new_password)
             puts "Your password has been changed."
         else
             puts "Sorry you didn't enter the correct password. Please try again."
