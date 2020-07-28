@@ -2,6 +2,12 @@ class Restaurant < ActiveRecord::Base
   has_many :reviews
   has_many :users, through: :reviews
 
+  def self.find_restaurant_by_name(name)
+    result = all.where(name: name)
+    search_result(result)
+    result
+  end
+
   def self.search_result(restaurants)
     case restaurants.count
     when 0
