@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
         review = gets.chomp
         Review.create(star_rating: rating.to_i.clamp(1, 5), desc: review, user_id: self, restaurant_id: restaurant.id)
         puts "Your review is posted!"
-      end
+    end
 
     def reviewed_restaurants
         self.reviews.collect do |review|
