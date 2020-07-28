@@ -29,9 +29,10 @@ class Restaurant < ActiveRecord::Base
   end
 
   def self.recommendation(cuisine)
-    list = all.where(cuisine_id: cuisine.id)
+    all.where(cuisine_id: cuisine.id)
       .select {|r| r.average_star_count >= 4 }
-      .sort_by { |r| !r.average_star_count }
+      .sort_by { |r| r.average_star_count }
+      .reverse
       .take(5)
   end
 end
