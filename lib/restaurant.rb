@@ -22,6 +22,11 @@ class Restaurant < ActiveRecord::Base
     result
   end
 
+  def self.find_random_restaurant_by_neighborhood
+    puts "Which location you want to find a restaurant?"
+
+  end
+
   def self.search_result(restaurants)
     case restaurants.count
     when 0
