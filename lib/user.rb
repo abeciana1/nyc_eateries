@@ -16,8 +16,6 @@ class User < ActiveRecord::Base
         end
     end
 
-    
-
     def update_review
         puts "Which review would you like to update?"
         puts "Please type the name of the restaurant"
