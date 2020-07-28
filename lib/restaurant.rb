@@ -5,6 +5,6 @@ class Restaurant < ActiveRecord::Base
   def show_details
     credit_card ? cc = "Yes" : cc = "No"
     reservations ? rsv = "Yes" : rsv = "No"
-    puts "#{name}\nAddress: #{address}\nMenu: #{menu_link}\nWebsite: #{website}\nYelp page: #{yelp_page}\nBusiness hour: #{hours}\nAbout this restaurant: #{about}\nAccept creadit card?: #{cc}\nAccept reservation?: #{rsv}"
+    puts "#{name}\nAddress: #{address}\nMenu: #{menu_link}\nWebsite: #{website}\nYelp page: #{yelp_page}\nBusiness hour: #{hours}\nAbout this restaurant: #{about}\nAccept creadit card?: #{cc}\nAccept reservations?: #{rsv}"
   end
 end
