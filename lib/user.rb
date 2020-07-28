@@ -1,3 +1,5 @@
+require_relative './cli.rb'
+
 class User < ActiveRecord::Base
     has_many :reviews
     has_many :restaurants, through: :reviews
@@ -12,8 +14,15 @@ class User < ActiveRecord::Base
         puts "Thanks, please type in your password:"
         password_input = STDIN.gets.chomp
         logged_in = self.all.find do |user|
-            user.username == username_input && user.password == password_input
-        end 
+            user
+        end
+        if logged_in.username == username_input && logged_in.password == password_input
+            puts "Welcome back, #{logged_in.first_name}"
+        elsif logged_in.username != username_input && logged_in.password != password_input
+            puts "Sorry, either your username or password was incorrect. Please try again."
+            exit
+        end
+        logged_in
     end
 
     def write_review(restaurant)
@@ -64,13 +73,14 @@ class User < ActiveRecord::Base
                 new_description = STDIN.gets
                 rev.desc = new_description
                 puts "Thanks for your feedback, we'll send you back to the main menu."
-                # TODO -- when making CLI, add way to get back to main menu
+                # CLI.main_menu(user)
             when "no change"
                 puts "No change in description."
                 puts "We'll send you back to the main menu."
             end
         when "N" || "n"
             puts "No problem, we'll send you back to the main menu."
+            # CLI.main_menu(user)
         end
     end
 
@@ -105,14 +115,6 @@ class User < ActiveRecord::Base
     end
 
     private
-
-    def check_username(username)
-        if self.username == username
-            true
-        else
-            false
-        end
-    end
 
     def check_password(password)
         if self.password == password
