@@ -9,6 +9,8 @@ class Restaurant < ActiveRecord::Base
   end
 
   def average_star_count
-    
+    reviews.inject(0) { |sum, review| 
+      sum + review.star_rating
+    }.to_f / reviews.count
   end
 end
