@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
         end
         if logged_in.username == username_input && logged_in.password == password_input
             puts "Welcome back, #{logged_in.first_name}"
+            puts "\n"
         elsif logged_in.username != username_input && logged_in.password != password_input
             puts "Sorry, either your username or password was incorrect. Please try again."
             exit
@@ -37,6 +38,16 @@ class User < ActiveRecord::Base
     def reviewed_restaurants
         self.reviews.collect do |review|
             review.restaurant
+        end
+    end
+
+    def check_user_has_reviews
+        if self.reviews == nil || self.reviews == [] 
+            puts "Sorry, you don't seem to have any reviews yet, please check out some restaurants near you and a create one."
+            puts "We're checking our database."
+        else
+            puts "Looks like you have #{self.reviews.count} review(s)."
+            self.update_review
         end
     end
 
@@ -73,14 +84,12 @@ class User < ActiveRecord::Base
                 new_description = STDIN.gets
                 rev.desc = new_description
                 puts "Thanks for your feedback, we'll send you back to the main menu."
-                # CLI.main_menu(user)
             when "no change"
                 puts "No change in description."
                 puts "We'll send you back to the main menu."
             end
         when "N" || "n"
             puts "No problem, we'll send you back to the main menu."
-            # CLI.main_menu(user)
         end
     end
 
@@ -90,6 +99,24 @@ class User < ActiveRecord::Base
         puts self.all_restaurants_reviewed
         review_select = STDIN.gets.chomp
         rev = select_review(review_select)
+        puts "=========================================================="
+        puts "Please review the following before deleting your review:"
+        puts "=========================================================="
+        puts "\n"
+        puts "You rated #{rev.restaurant.name} #{rev.star_rating} stars out of 5 stars."
+        puts "\n"
+        puts "Your description was: #{rev.desc}"
+        puts "=========================================================="
+        puts "Would you like to delete this review? Please type 'Y' for yes or 'N' for no."
+        delete_review = STDIN.gets.chomp
+
+        case delete_review
+        when "Y" || "y"
+            rev.delete
+            puts "Your review has been deleted."
+        when "N" || "n"
+            puts "No problem, we'll send you back to the main menu."
+        end
     end
 
 
@@ -107,7 +134,7 @@ class User < ActiveRecord::Base
 
     def change_password(old_password, new_password)
         if check_password(old_password)
-            self.password = new_password
+            self.update(password: new_password)
             puts "Your password has been changed."
         else
             puts "Sorry you didn't enter the correct password. Please try again."
