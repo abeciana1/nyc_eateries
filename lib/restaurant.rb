@@ -2,6 +2,20 @@ class Restaurant < ActiveRecord::Base
   has_many :reviews
   has_many :users, through: :reviews
 
+  def self.search_result(restaurants)
+    case restaurants.count
+    when 0
+      puts "There is no restaurant matched."
+    when 1
+      restaurants[0].show_details
+    else
+      restaurants.each_with_index { |restaurant, index|
+        puts index + 1
+        restaurant.show_details
+      }
+    end
+  end
+
   def show_details
     credit_card ? cc = "Yes" : cc = "No"
     reservations ? rsv = "Yes" : rsv = "No"
