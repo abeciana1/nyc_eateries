@@ -25,6 +25,13 @@
 
 testing
 
+<!-- TODO Create user login feature (Alex) -->
+<!-- TODO --> create remove/delete review (Alex)
+<!-- TODO --> create cli.rb and app structure (main menu, welcome message, etc.) (Alex)
+<!-- TODO --> Restaurant#show_details method -- restaurant page (Junko)
+<!-- TODO --> Restaurant#average_star_count - count the number of stars and find average out of 5 (Junko)
+<!-- TODO --> Restaurant.recommendation(cuisine) -- use Restaurant#average_star_count / returns top 5 or 10 restaurants with an average star rating of over 4 star && matches the cuisine argument (Junko)
+
 ## Attributes
 
 ### User
