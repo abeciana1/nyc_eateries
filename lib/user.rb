@@ -6,9 +6,14 @@ class User < ActiveRecord::Base
         "#{self.first_name} #{self.last_name}"        
     end
 
-    def create_review(star_rating, desc, restaurant)
-        Review.create(star_rating: star_rating.clamp(1, 5), desc: desc, user_id: self.id, restaurant_id: restaurant.id)
-    end
+    def write_review(restaurant)
+        puts "How many stars do you rate this restaurant? Enter the number."
+        rating = gets.chomp
+        puts "Please write your review:"
+        review = gets.chomp
+        Review.create(star_rating: rating.to_i.clamp(1, 5), desc: review, user_id: self, restaurant_id: restaurant.id)
+        puts "Your review is posted!"
+      end
 
     def reviewed_restaurants
         self.reviews.collect do |review|
@@ -98,15 +103,6 @@ class User < ActiveRecord::Base
             false
         end
     end
-
-  def write_review(restaurant)
-    puts "How many stars do you rate this restaurant? Enter *"
-    rating = gets.chomp
-    puts "Please write your review (up to 255 characters)."
-    review = gets.chomp
-    Review.create(star_rating: rating, desc: review, user_id: self, restaurant_id: restaurant.id)
-    puts "Your review is posted!"
-  end
   
 
 end
