@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_28_140447) do
+ActiveRecord::Schema.define(version: 2020_07_28_145536) do
 
   create_table "cuisines", force: :cascade do |t|
     t.string "name"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 2020_07_28_140447) do
 
   create_table "reviews", force: :cascade do |t|
     t.integer "star_rating"
-    t.string "desc", default: " "
+    t.text "desc", default: " "
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "user_id"
