@@ -7,4 +7,8 @@ class Restaurant < ActiveRecord::Base
     reservations ? rsv = "Yes" : rsv = "No"
     puts "#{name}\nAddress: #{address}\nMenu: #{menu_link}\nWebsite: #{website}\nYelp page: #{yelp_page}\nBusiness hour: #{hours}\nAbout this restaurant: #{about}\nAccept creadit card?: #{cc}\nAccept reservations?: #{rsv}"
   end
+
+  def average_star_count
+    
+  end
 end
