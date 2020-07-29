@@ -69,7 +69,7 @@ class Restaurant < ActiveRecord::Base
   end
 
   def self.uniq_cuisines
-    Restaurant.all.map(&:cuisine)
+    Restaurant.all.map(&:cuisine).uniq
   end
 
   def self.recommendation(cuisine)
