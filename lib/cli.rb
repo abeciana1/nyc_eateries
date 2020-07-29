@@ -122,7 +122,7 @@ class CLI
     def self.main_options(user)
         puts "Hey #{user.first_name}, here's a menu of options to choose from:"
         puts "\n"
-        puts "Press 1 -- to receive recommendations" 
+        puts "Press 1 -- to receive recommendations by cuisine" 
         puts "Press 2 -- to update one of your past reviews." 
         puts "Press 3 -- to delete one of your past reviews."
         puts "Press 4 -- to go to restaurant search menu"
