@@ -1,5 +1,3 @@
-require 'pry'
-
 class Restaurant < ActiveRecord::Base
   has_many :reviews
   has_many :users, through: :reviews
@@ -65,6 +63,8 @@ class Restaurant < ActiveRecord::Base
   end
 
   def average_star_count
+    return 0 if reviews.count == 0
+
     reviews.inject(0) { |sum, review| 
       sum + review.star_rating
     }.to_f / reviews.count
