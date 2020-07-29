@@ -78,8 +78,11 @@ class Restaurant < ActiveRecord::Base
     }
   end
 
-  def self.recommendation(cuisine)
-    all.where(cuisine_id: cuisine.id)
+  def self.recommendation_by_cuisine
+    puts "Choose a cuisine from the list below. Enter a number."
+    uniq_cuisines_with_index
+    input = STDIN.gets.chomp.to_i
+    all.where(cuisine_id: uniq_cuisines[input - 1].id)
       .select {|r| r.average_star_count >= 4 }
       .sort_by { |r| r.average_star_count }
       .reverse
