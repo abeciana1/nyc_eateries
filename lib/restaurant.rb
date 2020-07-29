@@ -6,7 +6,7 @@ class Restaurant < ActiveRecord::Base
   belongs_to :cuisine
 
   #Method for searching restaurants by name
-  def sel9f.find_restaurant_by_name
+  def self.find_restaurants_by_name
     puts "What is the name of restaurant you are looking for?" 
     input = STDIN.gets.chomp
     result = all.where(name: input)
