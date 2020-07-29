@@ -120,7 +120,6 @@ class CLI
     end
 
     def self.main_options(user)
-        binding.pry
         puts "Hey #{user.first_name}, here's a menu of options to choose from:"
         puts "\n"
         puts "Press 1 -- to receive recommendations" 

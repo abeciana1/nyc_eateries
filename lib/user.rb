@@ -13,15 +13,14 @@ class User < ActiveRecord::Base
         username_input = STDIN.gets.chomp
         puts "Thanks, please type in your password:"
         password_input = STDIN.gets.chomp
-        logged_in = self.all.find do |user|
-            user
-        end
+        logged_in = User.find_by(username: username_input)
         if logged_in.username == username_input && logged_in.password == password_input
             puts "Welcome back, #{logged_in.first_name}"
             puts "\n"
         elsif logged_in.username != username_input || logged_in.password != password_input
             puts "Sorry, either your username or password was incorrect. Please try again."
-            exit
+            puts "\n"
+            User.login
         end
         logged_in
     end
