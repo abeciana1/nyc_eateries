@@ -5,6 +5,8 @@ class Restaurant < ActiveRecord::Base
   has_many :users, through: :reviews
   belongs_to :cuisine
 
+  
+  def self.search_result(restaurants)
   #Method for searching restaurants by name
   def self.search_by_name
     puts "What is the name of restaurant you are looking for?" 
