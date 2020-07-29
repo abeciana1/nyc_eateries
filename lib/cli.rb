@@ -166,7 +166,7 @@ class CLI
     end
 
     def self.menu_helper(user, logged_input)
-        if logged_input != "1" && logged_input != "2" && logged_input != "3" && logged_input != "4" && logged_input != "5" && logged_input != "main"
+        if logged_input != "1" && logged_input != "2" && logged_input != "3" && logged_input != "4" && logged_input != "5"
             puts "Sorry, we counldn't understand your request, please choose one of the numbers above. Thanks!"
         end
 
