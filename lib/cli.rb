@@ -107,9 +107,7 @@ class CLI
             puts "Thanks, now enter your new password:"
             new_password = gets.chomp
             logged_in.change_password(old_password, new_password)
-        when "main"
-            CLI.main_options(logged_in)
-        when "exit"
+        when "6"
             exit
         else
             puts "Sorry, we counldn't understand your request, please choose one of the commands above. Thanks!"
@@ -127,6 +125,7 @@ class CLI
         puts "Press 3 -- to delete one of your past reviews."
         puts "Press 4 -- to go to restaurant search menu"
         puts "Press 5 -- to change your password"
+        puts "Press 6 -- to exit from this app"
         puts "\n"
     end
 
