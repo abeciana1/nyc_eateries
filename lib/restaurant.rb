@@ -81,7 +81,7 @@ class Restaurant < ActiveRecord::Base
     }
   end
 
-  def self.recommendation_by_cuisine
+  def self.recommendations_by_cuisine
     puts "Choose a cuisine from the list below. Enter a number."
     uniq_cuisines_with_index
     input = STDIN.gets.chomp.to_i
