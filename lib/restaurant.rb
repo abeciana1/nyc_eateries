@@ -59,10 +59,6 @@ class Restaurant < ActiveRecord::Base
   end
 
   def show_details
-    # credit_card ? cc = "Yes" : cc = "No"
-    # reservations ? rsv = "Yes" : rsv = "No"
-    # puts "Menu: #{menu_link}\nWebsite: #{website}\nYelp page: #{yelp_page}\nBusiness hour: #{hours}\nAbout this restaurant: #{about}\nAccept creadit card?: #{cc}\nAccept reservations?: #{rsv}"
-
     puts "======================================================================================================"
     puts "#{self.name} || #{self.address} || #{self.phone}".yellow.bold
     puts "======================================================================================================"
