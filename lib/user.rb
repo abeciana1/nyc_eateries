@@ -44,9 +44,10 @@ class User < ActiveRecord::Base
         if self.reviews == nil || self.reviews == [] 
             puts "Sorry, you don't seem to have any reviews yet, please check out some restaurants near you and a create one."
             puts "We're checking our database."
+            return false
         else
             puts "Looks like you have #{self.reviews.count} review(s)."
-            self.update_review
+            return true
         end
     end
 

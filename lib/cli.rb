@@ -92,10 +92,10 @@ class CLI
         when "1" #search
             # Restaurant.search_result()
         when "2" #* update review
-            logged_in.check_user_has_reviews 
+            logged_in.update_review if logged_in.check_user_has_reviews
             CLI.main_options(logged_in)
         when "3" #* remove review
-            logged_in.remove_review
+            logged_in.remove_review if logged_in.check_user_has_reviews
             CLI.main_options(logged_in)
         when "4" #* go to restaurant menu
             CLI.restaurant_search_menu(logged_in)
