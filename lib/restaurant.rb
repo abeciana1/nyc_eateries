@@ -25,7 +25,7 @@ class Restaurant < ActiveRecord::Base
     }
   end
   
-  def self.find_restaurant_by_neighborhood
+  def self.find_restaurants_by_neighborhood
     puts "Choose a location from the list below. Enter a number."
     uniq_locations_with_index
     input = STDIN.gets.chomp.to_i
