@@ -23,7 +23,6 @@ class CLI
                 CLI.create_account
             when "login"
                 logged_in = User.login
-                # binding.pry
                 CLI.main_menu(logged_in)
                 puts "\n"
                 puts "\n"
@@ -92,30 +91,86 @@ class CLI
         case logged_input
         when "1" #search
             # Restaurant.search_result()
-        when "2" #update
+        when "2" #* update review
             logged_in.check_user_has_reviews 
             CLI.main_options(logged_in)
-        when "3" #remove
+        when "3" #* remove review
             logged_in.remove_review
             CLI.main_options(logged_in)
-        when "4" #recommendations
-            puts "Type in the name of the cuisine that you would like to have:"
-            cuisine_input = gets.chomp
-            Restaurant.recommendation(Cuisine.find_by(name: cuisine_input))
-        when "something here" #change password
-            puts "Nothing yet" #! Create
+        when "4" #* go to restaurant menu
+            CLI.restaurant_search_menu(logged_in)
+        when "5" #* change password
+            puts "Sure, you can change your password!"
+            puts "\n"
+            puts "Please enter your old password:"
+            old_password = gets.chomp
+            puts "Thanks, now enter your new password:"
+            new_password = gets.chomp
+            logged_in.change_password(old_password, new_password)
         when "main"
             CLI.main_options(logged_in)
-            # "Nothing yet" #! Create
         when "exit"
             exit
         else
             puts "Sorry, we counldn't understand your request, please choose one of the commands above. Thanks!"
+            CLI.main_menu(logged_in)
         end
 
-        # if logged_input != "1" && logged_input != "2" && logged_input != "3" && logged_input != "4" && logged_input != "main"
-        #     puts "Sorry, we counldn't understand your request, please choose one of the numbers above. Thanks!"
-        # end
+        CLI.menu_helper(logged_input)
+    end
+
+    def self.main_options(user)
+        puts "Hey #{user.first_name}, here's a menu of options to choose from:"
+        puts "\n"
+        puts "Press 1 -- to receive recommendations" 
+        puts "Press 2 -- to update one of your past reviews." 
+        puts "Press 3 -- to delete one of your past reviews."
+        puts "Press 4 -- to go to restaurant search menu"
+        puts "Press 5 -- to change your password"
+        puts "\n"
+        puts "If you were need to refer back here to the main menu, please just type 'main' instead of one of the numbered choices".yellow
+    end
+
+    def self.restaurant_search_menu(user)
+        self.restaurant_search_options(user)
+        logged_input = gets.chomp
+
+        case logged_input
+        when "1"
+            puts "Nothing yet"  #! create
+        when "2"
+            puts "Nothing yet"  #! create
+        when "3"
+            puts "Nothing yet"  #! create
+        when "4"
+            puts "Nothing yet"  #! create
+        when "5"
+            CLI.main_menu(user)
+        else
+            "Sorry, we counldn't understand your request, please choose one of the numbers above. Thanks!"
+            CLI.restaurant_search_menu(user)
+        end
+
+        CLI.menu_helper(user, logged_input)
+    end
+
+    def self.restaurant_search_options(user)
+        puts "Hey #{user.first_name}, this a menu of restaurant search options:"
+        puts "\n"
+        puts "Press 1 -- to search by name." 
+        puts "Press 2 -- to search by neighborhood."
+        puts "Press 3 -- to recieve a random restaurant." 
+                #type in a neighborhood, filter 
+                #Restaurant.all.sample
+        puts "Press 4 -- to receive curated cuisine recommendations." 
+        puts "Press 5 -- to go back to main menu."
+        puts "\n"
+    end
+
+    def self.menu_helper(user, logged_input)
+        if user != "1" && user != "2" && user != "3" && user != "4" && user != "5" && user != "main"
+            puts "Sorry, we counldn't understand your request, please choose one of the numbers above. Thanks!"
+        end
 
         puts "\n"
         puts "Is there anything else you would like to do? (Y/N)"
@@ -125,9 +180,9 @@ class CLI
         case additional_task
         when "Y" || "y"
             puts "No problem, we'll return you to the main menu options!"
-            CLI.main_options(logged_in)
+            CLI.main_menu(user)
         when "N" || "n"
-            puts "No problem, please login when you would like to do something else! Goodbye, #{logged_in.first_name}!"
+            puts "No problem, please login when you would like to do something else! Goodbye, #{user.first_name}!"
             exit
         end
 
@@ -136,37 +191,10 @@ class CLI
             puts "\n"
             puts "Otherwise, you can exit and then log back in later if there's a specific task that you would like to do. Thanks!"
             puts "\n"
-            CLI.main_options(logged_in)
-            # if test
-                
-            # end
+            CLI.main_menu(user)
         end
         # puts "It seems like we're in an endless loop here, please log back in if there's a specific task that you would like to do. Thanks!"
         # exit
-    end
-
-    def self.main_options(user)
-        # binding.pry
-        puts "Hey #{user.first_name}, here's a menu of options to choose from:"
-        puts "\n"
-        puts "Press 1 -- to receive recommendations" 
-        puts "Press 2 -- to update one of your past reviews." 
-        puts "Press 3 -- to delete one of your past reviews."
-        puts "Press 4 -- to go to restaurant search menu"
-        puts "\n"
-        puts "If you were need to refer back here to the main menu, please just type 'main' instead of one of the numbered choices".yellow
-    end
-
-    def self.restaurant_search_menu(user)
-        puts "Hey #{user.first_name}, here's a menu of options to choose from:"
-        puts "\n"
-        puts "Press 1 -- to search by name." 
-        puts "Press 2 -- to search by neighborhood." #
-        puts "Press 3 -- to recieve a random restaurant." 
-                #type in a neighborhood, filter 
-                #Restaurant.all.sample
-        puts "Press 4 -- to receive curated cuisine recommendations." 
-        puts "\n"
     end
 
 end
