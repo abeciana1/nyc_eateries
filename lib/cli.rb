@@ -26,6 +26,17 @@ class CLI
                 CLI.main_menu(logged_in)
                 puts "\n"
                 puts "\n"
+            else
+                puts "Sorry we didn't understand the command you entered. Please try again!".red
+                puts "\n"
+                puts "Would you like to restart the app? (Y/N)"
+                restart = gets.chomp
+                if restart == "Y" || restart == "y"
+                    puts "Restarting the app now ..."
+                    CLI.greet 
+                else
+                    puts "No problem, come back anytime."
+                end
             end
         end
 
@@ -120,11 +131,11 @@ class CLI
     end
 
     def self.main_options(user)
-        binding.pry
+        # binding.pry
         puts "Hey #{user.first_name}, here's a menu of options to choose from:"
         puts "\n"
         puts "Press 1 -- to receive recommendations" 
-        puts "Press 2 -- to update one of your past reviews." 
+        puts "Press 2 -- to show/update one of your past reviews." 
         puts "Press 3 -- to delete one of your past reviews."
         puts "Press 4 -- to go to restaurant search menu"
         puts "Press 5 -- to change your password"
