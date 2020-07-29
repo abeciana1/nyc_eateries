@@ -3,6 +3,7 @@ require 'pry'
 class Restaurant < ActiveRecord::Base
   has_many :reviews
   has_many :users, through: :reviews
+  belongs_to :cuisine
 
   def self.find_restaurant_by_name
     puts "What is the name of restaurant you are looking for?" 
