@@ -72,6 +72,12 @@ class Restaurant < ActiveRecord::Base
     Restaurant.all.map(&:cuisine).uniq
   end
 
+  def self.uniq_cuisines_with_index
+    uniq_cuisines.each_with_index { |cuisine, index| 
+      puts "#{index + 1}: #{cuisine.name}"
+    }
+  end
+
   def self.recommendation(cuisine)
     all.where(cuisine_id: cuisine.id)
       .select {|r| r.average_star_count >= 4 }
