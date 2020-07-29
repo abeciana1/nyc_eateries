@@ -11,7 +11,7 @@ class CLI
             puts "\n"
             puts "Otherwise, please type 'login' (without quotes) to log into your account!"
             puts "\n"
-            puts "PLEASE REMEMBER ALL ALL COMMANDS ARE CASE SENSITIVE".red
+            puts "PLEASE REMEMBER ALL COMMANDS ARE CASE SENSITIVE".red
             puts "\n"
             puts "You may type 'exit' anytime to exit the program."
             log_create_input = gets.chomp
