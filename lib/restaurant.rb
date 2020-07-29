@@ -5,7 +5,8 @@ class Restaurant < ActiveRecord::Base
   has_many :users, through: :reviews
   belongs_to :cuisine
 
-  def self.find_restaurant_by_name
+  #Method for searching restaurants by name
+  def sel9f.find_restaurant_by_name
     puts "What is the name of restaurant you are looking for?" 
     input = STDIN.gets.chomp
     result = all.where(name: input)
@@ -13,6 +14,7 @@ class Restaurant < ActiveRecord::Base
     result
   end
 
+  #Methods for searching restaurants by neighborhood
   def self.uniq_locations
     Restaurant.all.map(&:neighborhood).uniq.sort
   end
@@ -68,6 +70,7 @@ class Restaurant < ActiveRecord::Base
     }.to_f / reviews.count
   end
 
+  #Methods for recommendation of restaurants by cuisine
   def self.uniq_cuisines
     Restaurant.all.map(&:cuisine).uniq.sort
   end
