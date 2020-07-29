@@ -10,7 +10,7 @@ class Restaurant < ActiveRecord::Base
     puts "What is the name of restaurant you are looking for?" 
     input = STDIN.gets.chomp
     result = all.where(name: input)
-    search_result(result)
+    print_result(result)
     result
   end
 
@@ -30,21 +30,21 @@ class Restaurant < ActiveRecord::Base
     uniq_locations_with_index
     input = STDIN.gets.chomp.to_i
     result = all.where(neighborhood: uniq_locations[input - 1])
-    search_result(result)
+    print_result(result)
     result
   end
   
-  def self.search_random_by_neighborhood
+  def self.find_random_by_neighborhood
     puts "Choose a location from the list below. Enter a number."
     uniq_locations_with_index
     input = STDIN.gets.chomp.to_i
     list = all.where(neighborhood: uniq_locations[input - 1])
     result = [list.sample]
-    search_result(result)
+    print_result(result)
     result
   end
   
-  def self.search_result(restaurants)
+  def self.print_result(restaurants)
     case restaurants.count
     when 0
       puts "There is no restaurant matched."
@@ -72,7 +72,7 @@ class Restaurant < ActiveRecord::Base
 
   #Methods for recommendation of restaurants by cuisine
   def self.uniq_cuisines
-    Restaurant.all.map(&:cuisine).uniq.sort
+    Restaurant.all.map(&:cuisine).uniq.sort_by(&:name)
   end
 
   def self.uniq_cuisines_with_index
