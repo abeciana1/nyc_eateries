@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
         if logged_in.username == username_input && logged_in.password == password_input
             puts "Welcome back, #{logged_in.first_name}"
             puts "\n"
-        elsif logged_in.username != username_input && logged_in.password != password_input
+        elsif logged_in.username != username_input || logged_in.password != password_input
             puts "Sorry, either your username or password was incorrect. Please try again."
             exit
         end

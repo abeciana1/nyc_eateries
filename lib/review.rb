@@ -27,7 +27,7 @@ class Review < ActiveRecord::Base
           puts "\n"
           puts "#{self.stars(self.star_rating)}created on: #{self.created_at}"
           puts "======================================================================="
-          puts "'#{self.desc}''"
+          puts "'#{self.desc}'"
           puts "\n"
           puts "by #{self.user.first_name} #{self.user.last_name.first}.".italic
           puts "======================================================================="

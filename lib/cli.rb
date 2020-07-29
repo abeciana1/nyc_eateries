@@ -116,10 +116,11 @@ class CLI
             CLI.main_menu(logged_in)
         end
 
-        CLI.menu_helper(logged_input)
+        CLI.menu_helper(logged_in, logged_input)
     end
 
     def self.main_options(user)
+        binding.pry
         puts "Hey #{user.first_name}, here's a menu of options to choose from:"
         puts "\n"
         puts "Press 1 -- to receive recommendations" 
@@ -168,7 +169,7 @@ class CLI
     end
 
     def self.menu_helper(user, logged_input)
-        if user != "1" && user != "2" && user != "3" && user != "4" && user != "5" && user != "main"
+        if logged_input != "1" && logged_input != "2" && logged_input != "3" && logged_input != "4" && logged_input != "5" && logged_input != "main"
             puts "Sorry, we counldn't understand your request, please choose one of the numbers above. Thanks!"
         end
 
