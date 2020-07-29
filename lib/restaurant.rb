@@ -67,6 +67,10 @@ class Restaurant < ActiveRecord::Base
     }.to_f / reviews.count
   end
 
+  def self.uniq_cuisines
+    Restaurant.all.map(&:cuisine)
+  end
+
   def self.recommendation(cuisine)
     all.where(cuisine_id: cuisine.id)
       .select {|r| r.average_star_count >= 4 }
