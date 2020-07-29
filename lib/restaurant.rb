@@ -6,7 +6,7 @@ class Restaurant < ActiveRecord::Base
   belongs_to :cuisine
 
   #Method for searching restaurants by name
-  def self.find_restaurants_by_name
+  def self.search_by_name
     puts "What is the name of restaurant you are looking for?" 
     input = STDIN.gets.chomp
     result = all.where(name: input)
@@ -25,7 +25,7 @@ class Restaurant < ActiveRecord::Base
     }
   end
   
-  def self.find_restaurants_by_neighborhood
+  def self.search_by_neighborhood
     puts "Choose a location from the list below. Enter a number."
     uniq_locations_with_index
     input = STDIN.gets.chomp.to_i
@@ -34,7 +34,7 @@ class Restaurant < ActiveRecord::Base
     result
   end
   
-  def self.find_random_restaurant_by_neighborhood
+  def self.search_random_by_neighborhood
     puts "Choose a location from the list below. Enter a number."
     uniq_locations_with_index
     input = STDIN.gets.chomp.to_i
