@@ -128,7 +128,6 @@ class CLI
         puts "Press 4 -- to go to restaurant search menu"
         puts "Press 5 -- to change your password"
         puts "\n"
-        puts "If you need to refer back here to the main menu, please just type 'main' instead of one of the numbered choices".yellow
     end
 
     def self.restaurant_search_menu(user)
