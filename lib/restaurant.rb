@@ -6,7 +6,7 @@ class Restaurant < ActiveRecord::Base
   belongs_to :cuisine
 
   
-  def self.search_result(restaurants)
+  # def self.search_result(restaurants)
   #Method for searching restaurants by name
   def self.search_by_name
     puts "What is the name of restaurant you are looking for?" 
@@ -61,6 +61,25 @@ class Restaurant < ActiveRecord::Base
   end
 
   def show_details
+    credit_card ? cc = "Yes" : cc = "No"
+    reservations ? rsv = "Yes" : rsv = "No"
+    puts "#{name}"
+    puts "Address: #{address}"
+    puts "Website: #{website}"
+    puts "Yelp page: #{yelp_page}"
+    puts "Business hour: #{hours}"
+    puts "Accept credit cards?: #{cc}"
+    puts "Accept reservations?: #{rsv}"
+  end
+
+  def self.expand_details(user)
+    puts "Type the name of the restaurant you would like to receive more details on:"
+    entry = STDIN.gets.chomp
+    rest = Restaurant.find_by(name: entry)
+    rest.restaurant_page(user)
+  end
+
+  def restaurant_page(user)
     puts "======================================================================================================"
     puts "#{self.name} || #{self.address} || #{self.phone}".yellow.bold
     puts "======================================================================================================"
@@ -87,31 +106,43 @@ class Restaurant < ActiveRecord::Base
     start_new_review = STDIN.gets.chomp
 
     case start_new_review
-    when "Y" || "y"
+    when "Y"
       puts "Great, please type number of stars you would rate your last visit in integer format:"
       star_input = STDIN.gets.chomp
       puts "Okay, time to be descriptive, please give details:"
       desc_input = STDIN.gets.chomp
-      puts "Please confirm your username by typing it below:"
-      username = STDIN.gets.chomp
-      user = User.find_by(username: username)
       review = Review.create(star_rating: star_input.to_i, desc: desc_input, user_id: user.id, restaurant_id: self.id)
       puts "Thanks for reviewing #{self.name}, we look forward to reading it!"
       puts "\n"
       puts "Here's what your review looks like:"
       review.pretty_display
       puts "To update this review, you will need to go to the main menu and choose menu option '2'."
-      # ask Y/N to go back to the main menu 
-      # if yes - CLI.main_menu(user)
-      # if no - exit and say goodbye
-    when "N" || "n"
+      puts "\n"
+      puts "Would you like to go back to the main menu? (Y/N)"
+      go_back_1 = STDIN.gets.chomp
+      case go_back_1
+      when "Y"
+        puts "Great, we'll send you back to the main menu."
+        CLI.main_menu(user)
+      when "N"
+        puts "No problem, we'll see you again another time."
+        exit
+      end
+    when "N"
       puts "No problem! You should come by sometime and we'll work hard to make your visit memorable."
-      # ask Y/N to go back to the main menu 
-      # if yes - CLI.main_menu(user)
-      # if no - exit and say goodbye
+      puts "\n"
+      puts "Would you like to go back to the main menu? (Y/N)"
+      go_back_2 = STDIN.gets.chomp
+      case go_back_2
+      when "Y"
+        puts "Great, we'll send you back to the main menu."
+        CLI.main_menu(user)
+      when "N"
+        puts "No problem, we'll see you again another time."
+        exit
+      end
     end
     #* in cli - gets.chomp before method and find_by to invoke this method
-    #* in cli - add question to go back to main menu (Y/N) -- 
   end
 
   def average_star_count
@@ -147,8 +178,9 @@ class Restaurant < ActiveRecord::Base
   end
 
   def pretty_display_reviews
-    self.reviews.each do |review|
+    self.reviews.each_with_index do |review, index|
       puts "\n"
+      puts "#{index + 1}".yellow
       puts "#{review.stars(review.star_rating)}created on: #{review.created_at}"
       puts "======================================================================="
       puts "'#{review.desc}'"

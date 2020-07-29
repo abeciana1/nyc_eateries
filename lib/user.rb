@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
     def update_review
         puts "Which review would you like to update?"
         puts "Please type the name of the restaurant"
-        puts self.all_restaurants_reviewed
+        self.all_restaurants_reviewed
         review_select = STDIN.gets.chomp
         rev = select_review(review_select)
         puts "Would you like to update this review for #{rev.restaurant.name}? Please type either 'Y' for yes or 'N' for no."
@@ -83,6 +83,10 @@ class User < ActiveRecord::Base
             when "no change"
                 puts "No change in description."
                 puts "We'll send you back to the main menu."
+            else
+                puts "Sorry we didn't quite catch that, please try again."
+                puts "\n"
+                self.update_review
             end
         when "N" || "n"
             puts "No problem, we'll send you back to the main menu."
@@ -92,7 +96,7 @@ class User < ActiveRecord::Base
     def remove_review
         puts "Which review do you want to delete?"
         puts "Please type the name of the restaurant"
-        puts self.all_restaurants_reviewed
+        self.all_restaurants_reviewed
         review_select = STDIN.gets.chomp
         rev = select_review(review_select)
         puts "=========================================================="
@@ -117,9 +121,11 @@ class User < ActiveRecord::Base
 
 
     def all_restaurants_reviewed
-        self.reviews.collect do |review|
-            puts review.restaurant.name
-        end.uniq
+        self.reviews.each_with_index do |review, index|
+            puts "\n"
+            puts "#{index + 1}: #{review.restaurant.name}\ncreated on: #{review.created_at} //" 
+            puts "#{review.stars(review.star_rating)}"
+        end
     end
 
     def select_review(restaurant_name)

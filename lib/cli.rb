@@ -26,6 +26,17 @@ class CLI
                 CLI.main_menu(logged_in)
                 puts "\n"
                 puts "\n"
+            else
+                puts "Sorry we didn't understand the command you entered. Please try again!".red
+                puts "\n"
+                puts "Would you like to restart the app? (Y/N)"
+                restart = gets.chomp
+                if restart == "Y" || restart == "y"
+                    puts "Restarting the app now ..."
+                    CLI.greet 
+                else
+                    puts "No problem, come back anytime."
+                end
             end
         end
 
@@ -86,7 +97,7 @@ class CLI
 
     def self.main_menu(logged_in)
         CLI.main_options(logged_in)
-        logged_input = gets.chomp
+        logged_input = STDIN.gets.chomp
 
         case logged_input
         when "1" #search
