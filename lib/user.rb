@@ -4,24 +4,19 @@ class User < ActiveRecord::Base
     has_many :reviews
     has_many :restaurants, through: :reviews
 
-    def full_name
-        "#{self.first_name} #{self.last_name}"        
-    end
-
     def self.login
         puts "Hey, what's your username?"
         username_input = STDIN.gets.chomp
         puts "Thanks, please type in your password:"
         password_input = STDIN.gets.chomp
-        logged_in = self.all.find do |user|
-            user
-        end
+        logged_in = User.find_by(username: username_input)
         if logged_in.username == username_input && logged_in.password == password_input
             puts "Welcome back, #{logged_in.first_name}"
             puts "\n"
         elsif logged_in.username != username_input || logged_in.password != password_input
             puts "Sorry, either your username or password was incorrect. Please try again."
-            exit
+            puts "\n"
+            User.login
         end
         logged_in
     end
@@ -45,9 +40,10 @@ class User < ActiveRecord::Base
         if self.reviews == nil || self.reviews == [] 
             puts "Sorry, you don't seem to have any reviews yet, please check out some restaurants near you and a create one."
             puts "We're checking our database."
+            return false
         else
             puts "Looks like you have #{self.reviews.count} review(s)."
-            self.update_review
+            return true
         end
     end
 

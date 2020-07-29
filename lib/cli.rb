@@ -11,7 +11,7 @@ class CLI
             puts "\n"
             puts "Otherwise, please type 'login' (without quotes) to log into your account!"
             puts "\n"
-            puts "PLEASE REMEMBER ALL ALL COMMANDS ARE CASE SENSITIVE".red
+            puts "PLEASE REMEMBER ALL COMMANDS ARE CASE SENSITIVE".red
             puts "\n"
             puts "You may type 'exit' anytime to exit the program."
             log_create_input = gets.chomp
@@ -85,17 +85,17 @@ class CLI
     end
 
     def self.main_menu(logged_in)
-        logged_response = CLI.main_options(logged_in)
+        CLI.main_options(logged_in)
         logged_input = gets.chomp
 
         case logged_input
         when "1" #search
             # Restaurant.search_result()
         when "2" #* update review
-            logged_in.check_user_has_reviews 
+            logged_in.update_review if logged_in.check_user_has_reviews
             CLI.main_options(logged_in)
         when "3" #* remove review
-            logged_in.remove_review
+            logged_in.remove_review if logged_in.check_user_has_reviews
             CLI.main_options(logged_in)
         when "4" #* go to restaurant menu
             CLI.restaurant_search_menu(logged_in)
@@ -107,9 +107,7 @@ class CLI
             puts "Thanks, now enter your new password:"
             new_password = gets.chomp
             logged_in.change_password(old_password, new_password)
-        when "main"
-            CLI.main_options(logged_in)
-        when "exit"
+        when "6"
             exit
         else
             puts "Sorry, we counldn't understand your request, please choose one of the commands above. Thanks!"
@@ -120,16 +118,15 @@ class CLI
     end
 
     def self.main_options(user)
-        binding.pry
         puts "Hey #{user.first_name}, here's a menu of options to choose from:"
         puts "\n"
-        puts "Press 1 -- to receive recommendations" 
+        puts "Press 1 -- to receive recommendations by cuisine" 
         puts "Press 2 -- to update one of your past reviews." 
         puts "Press 3 -- to delete one of your past reviews."
         puts "Press 4 -- to go to restaurant search menu"
         puts "Press 5 -- to change your password"
+        puts "Press 6 -- to exit from this app"
         puts "\n"
-        puts "If you were need to refer back here to the main menu, please just type 'main' instead of one of the numbered choices".yellow
     end
 
     def self.restaurant_search_menu(user)
@@ -169,7 +166,7 @@ class CLI
     end
 
     def self.menu_helper(user, logged_input)
-        if logged_input != "1" && logged_input != "2" && logged_input != "3" && logged_input != "4" && logged_input != "5" && logged_input != "main"
+        if logged_input != "1" && logged_input != "2" && logged_input != "3" && logged_input != "4" && logged_input != "5"
             puts "Sorry, we counldn't understand your request, please choose one of the numbers above. Thanks!"
         end
 
