@@ -10,7 +10,11 @@ class User < ActiveRecord::Base
         puts "Thanks, please type in your password:"
         password_input = STDIN.gets.chomp
         logged_in = User.find_by(username: username_input)
-        if logged_in.username == username_input && logged_in.password == password_input
+        if !User.find_by(username: username_input) && !User.find_by(password: password_input)
+            puts "Sorry your entry wasn't valid. Please try logging in again or create an account."
+            User.login
+        elsif logged_in.username == username_input && logged_in.password == password_input
+            puts "\n"
             puts "Welcome back, #{logged_in.first_name}"
             puts "\n"
         elsif logged_in.username != username_input || logged_in.password != password_input
@@ -49,10 +53,8 @@ class User < ActiveRecord::Base
 
     def update_review
         puts "Which review would you like to update?"
-        puts "Please type the name of the restaurant"
-        self.all_restaurants_reviewed
-        review_select = STDIN.gets.chomp
-        rev = select_review(review_select)
+        puts "Please enter the number of the review:"
+        rev = Review.select_review(self)
         puts "Would you like to update this review for #{rev.restaurant.name}? Please type either 'Y' for yes or 'N' for no."
         update_attribute = STDIN.gets.chomp
 
@@ -95,10 +97,8 @@ class User < ActiveRecord::Base
 
     def remove_review
         puts "Which review do you want to delete?"
-        puts "Please type the name of the restaurant"
-        self.all_restaurants_reviewed
-        review_select = STDIN.gets.chomp
-        rev = select_review(review_select)
+        puts "Please enter the number of review:"
+        rev = Review.select_review(self)
         puts "=========================================================="
         puts "Please review the following before deleting your review:"
         puts "=========================================================="
@@ -116,21 +116,6 @@ class User < ActiveRecord::Base
             puts "Your review has been deleted."
         when "N" || "n"
             puts "No problem, we'll send you back to the main menu."
-        end
-    end
-
-
-    def all_restaurants_reviewed
-        self.reviews.each_with_index do |review, index|
-            puts "\n"
-            puts "#{index + 1}: #{review.restaurant.name}\ncreated on: #{review.created_at} //" 
-            puts "#{review.stars(review.star_rating)}"
-        end
-    end
-
-    def select_review(restaurant_name)
-        self.reviews.find do |review|
-            review.restaurant.name == restaurant_name
         end
     end
 
@@ -155,3 +140,4 @@ class User < ActiveRecord::Base
   
 
 end
+
