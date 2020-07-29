@@ -178,8 +178,9 @@ class Restaurant < ActiveRecord::Base
   end
 
   def pretty_display_reviews
-    self.reviews.each do |review|
+    self.reviews.each_with_index do |review, index|
       puts "\n"
+      puts "#{index + 1}".yellow
       puts "#{review.stars(review.star_rating)}created on: #{review.created_at}"
       puts "======================================================================="
       puts "'#{review.desc}'"

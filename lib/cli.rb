@@ -96,8 +96,8 @@ class CLI
     end
 
     def self.main_menu(logged_in)
-        logged_response = CLI.main_options(logged_in)
-        logged_input = gets.chomp
+        CLI.main_options(logged_in)
+        logged_input = STDIN.gets.chomp
 
         case logged_input
         when "1" #search
