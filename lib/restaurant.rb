@@ -35,8 +35,10 @@ class Restaurant < ActiveRecord::Base
     puts "Choose a location from the list below. Enter a number."
     uniq_locations_with_index
     input = STDIN.gets.chomp.to_i
-    result = all.where(neighborhood: uniq_locations[input - 1])
-    
+    list = all.where(neighborhood: uniq_locations[input - 1])
+    result = [list.sample]
+    search_result(result)
+    result
   end
   
   def self.search_result(restaurants)
