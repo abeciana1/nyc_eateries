@@ -100,17 +100,15 @@ class CLI
         logged_input = STDIN.gets.chomp
 
         case logged_input
-        when "1" #search
-            Restaurant.recommendations_by_cuisine
-        when "2" #* update review
+        when "1" #* go to restaurant menu
+            CLI.restaurant_search_menu(logged_in)
+        when "2" #* show/update review
             logged_in.update_review if logged_in.check_user_has_reviews
             CLI.main_options(logged_in)
         when "3" #* remove review
             logged_in.remove_review if logged_in.check_user_has_reviews
             CLI.main_options(logged_in)
-        when "4" #* go to restaurant menu
-            CLI.restaurant_search_menu(logged_in)
-        when "5" #* change password
+        when "4" #* change password
             puts "Sure, you can change your password!"
             puts "\n"
             puts "Please enter your old password:"
@@ -118,7 +116,7 @@ class CLI
             puts "Thanks, now enter your new password:"
             new_password = gets.chomp
             logged_in.change_password(old_password, new_password)
-        when "6"
+        when "5"
             exit
         else
             puts "Sorry, we counldn't understand your request, please choose one of the commands above. Thanks!"
@@ -131,12 +129,11 @@ class CLI
     def self.main_options(user)
         puts "Hey #{user.first_name}, here's a menu of options to choose from:"
         puts "\n"
-        puts "Press 1 -- to receive recommendations by cuisine" 
+        puts "Press 1 -- to go to restaurant search menu" 
         puts "Press 2 -- to show/update one of your past reviews." 
         puts "Press 3 -- to delete one of your past reviews."
-        puts "Press 4 -- to go to restaurant search menu"
-        puts "Press 5 -- to change your password"
-        puts "Press 6 -- to exit from this app"
+        puts "Press 4 -- to change your password."
+        puts "Press 5 -- to exit from this app."
         puts "\n"
     end
 
