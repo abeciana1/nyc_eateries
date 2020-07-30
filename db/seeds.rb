@@ -27,8 +27,6 @@ rest5 = Restaurant.find_or_create_by(name: "Mr. Taka", address: "170 Allen St, N
 
 rest6 = Restaurant.find_or_create_by(name: "Ravagh", address: "11 East 30th St, New York, NY 10016", menu_link: "https://ravaghrestaurants.com/", website: "https://ravaghrestaurants.com/", yelp_page: "https://www.yelp.com/biz/ravagh-persian-grill-new-york-2", hours: "11:45 am - 9:00 pm", phone: "(555) 555-5555", about: "Middle East", neighborhood: "East Villege", credit_card: true, reservations: false, cuisine_id: cuisine3.id)
 
-rest7 = Restaurant.find_or_create_by(name: "Kondo", address: "TEST  29-13 Broadway, Astoria, NY 11106", menu_link: "http://www.kondorestaurant.com/", website: "http://www.kondorestaurant.com/", yelp_page: "https://www.yelp.com/biz/kondo-astoria", hours: "5:30 pm - 10:30 pm", phone: "(347) 617-1236", about: "Japanese, Sushi Bars, Salad", neighborhood: "Astoria", credit_card: true, reservations: true, cuisine_id: cuisine1.id)
-
 #  * Review
 review1 = Review.find_or_create_by(star_rating: 5, desc: "food was good", user_id: alex.id, restaurant_id: rest1.id)
 review2 = Review.find_or_create_by(star_rating: 5, desc: "food was good", user_id: alex.id, restaurant_id: rest2.id)
