@@ -13,16 +13,16 @@ class User < ActiveRecord::Base
         if !User.find_by(username: username_input) && !User.find_by(password: password_input)
             puts "Sorry your entry wasn't valid. Please try logging in again or create an account."
             User.login
+        elsif !User.find_by(username: username_input) || !User.find_by(password: password_input)
+            puts "Sorry, either your username or password was incorrect. Please try again."
+            puts "\n"
+            User.login
         elsif logged_in.username == username_input && logged_in.password == password_input
             puts "\n"
             puts "Welcome back, #{logged_in.first_name}"
             puts "\n"
-        elsif logged_in.username != username_input || logged_in.password != password_input
-            puts "Sorry, either your username or password was incorrect. Please try again."
-            puts "\n"
-            User.login
+            logged_in
         end
-        logged_in
     end
 
     def write_review(restaurant)
