@@ -5,14 +5,16 @@ class Restaurant < ActiveRecord::Base
   has_many :users, through: :reviews
   belongs_to :cuisine
 
-  
-  # def self.search_result(restaurants)
   #Method for searching restaurants by name
-  def self.search_by_name
+  def self.search_by_name(user)
     puts "What is the name of restaurant you are looking for?" 
     input = STDIN.gets.chomp
     result = all.where(name: input)
     print_result(result)
+    puts "\n"
+    puts "Enter the number of the restaurant you would like to expand details on:"
+    num_entry = STDIN.gets.chomp.to_i
+    result[num_entry - 1].expand_details(user)
     result
   end
 
@@ -25,13 +27,16 @@ class Restaurant < ActiveRecord::Base
     uniq_locations.each_with_index { |neighborhood, index| 
       puts "#{index + 1}: #{neighborhood}"
     }
+    puts "\n"
   end
   
   def self.search_by_neighborhood
     puts "Choose a location from the list below. Enter a number."
     uniq_locations_with_index
     input = STDIN.gets.chomp.to_i
+    puts "========="
     result = all.where(neighborhood: uniq_locations[input - 1])
+    puts "\n"
     print_result(result)
     result
   end
@@ -40,8 +45,10 @@ class Restaurant < ActiveRecord::Base
     puts "Choose a location from the list below. Enter a number."
     uniq_locations_with_index
     input = STDIN.gets.chomp.to_i
+    puts "========="
     list = all.where(neighborhood: uniq_locations[input - 1])
     result = [list.sample]
+    puts "\n"
     print_result(result)
     result
   end
@@ -72,11 +79,19 @@ class Restaurant < ActiveRecord::Base
     puts "Accept reservations?: #{rsv}"
   end
 
-  def self.expand_details(user)
-    puts "Type the name of the restaurant you would like to receive more details on:"
+  def expand_details(user)
+    puts "Would you like to open this restaurant's page? (Y/N)"
     entry = STDIN.gets.chomp
-    rest = Restaurant.find_by(name: entry)
-    rest.restaurant_page(user)
+    case entry
+    when "Y" || "y"
+      self.restaurant_page(user)
+    when "N" || "n"
+      puts "No problem, we'll return you to the main menu!"
+    else
+      puts "Sorry we didn't catch that, please try again."
+      self.expand_details(user)
+    end
+    
   end
 
   def restaurant_page(user)
@@ -115,7 +130,7 @@ class Restaurant < ActiveRecord::Base
       puts "Thanks for reviewing #{self.name}, we look forward to reading it!"
       puts "\n"
       puts "Here's what your review looks like:"
-      review.pretty_display
+      review.nice_display
       puts "To update this review, you will need to go to the main menu and choose menu option '2'."
       puts "\n"
       puts "Would you like to go back to the main menu? (Y/N)"
@@ -141,8 +156,11 @@ class Restaurant < ActiveRecord::Base
         puts "No problem, we'll see you again another time."
         exit
       end
+    else
+      puts "Sorry invalid input, please try again".red
+      puts "\n"
+      self.restaurant_page(user)
     end
-    #* in cli - gets.chomp before method and find_by to invoke this method
   end
 
   def average_star_count
@@ -162,17 +180,20 @@ class Restaurant < ActiveRecord::Base
     uniq_cuisines.each_with_index { |cuisine, index| 
       puts "#{index + 1}: #{cuisine.name}"
     }
+    puts "\n"
   end
 
   def self.recommendations_by_cuisine
     puts "Choose a cuisine from the list below. Enter a number."
     uniq_cuisines_with_index
     input = STDIN.gets.chomp.to_i
+    puts "========="
     result = all.where(cuisine_id: uniq_cuisines[input - 1].id)
       .select {|r| r.average_star_count >= 4 }
       .sort_by { |r| r.average_star_count }
       .reverse
       .take(5)
+      puts "\n"
     print_result(result)
     result
   end
