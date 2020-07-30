@@ -16,7 +16,7 @@ class CLI
             puts "You may type 'exit' anytime to exit the program."
             log_create_input = gets.chomp
 
-            break if log_create_input == "exit"
+            exit if log_create_input == "exit"
 
             case log_create_input
             when "create"
