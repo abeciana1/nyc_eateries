@@ -12,7 +12,9 @@ class Restaurant < ActiveRecord::Base
     result = all.where(name: input)
     print_result(result)
     puts "\n"
-    result[0].expand_details(user)
+    puts "Enter the number of the restaurant you would like to expand details on:"
+    num_entry = STDIN.gets.chomp.to_i
+    result[num_entry - 1].expand_details(user)
     result
   end
 
@@ -154,8 +156,11 @@ class Restaurant < ActiveRecord::Base
         puts "No problem, we'll see you again another time."
         exit
       end
+    else
+      puts "Sorry invalid input, please try again".red
+      puts "\n"
+      self.restaurant_page(user)
     end
-    #* in cli - gets.chomp before method and find_by to invoke this method
   end
 
   def average_star_count
