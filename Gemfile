@@ -8,5 +8,5 @@ gem "require_all"
 gem 'tty-prompt'
 gem "colorize"
 gem "dotenv"
-gem "json"
-gem "json-prettyprint"
+# gem "json"
+# gem "json-prettyprint"

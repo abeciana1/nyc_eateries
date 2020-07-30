@@ -193,7 +193,7 @@ class CLI
             exit
         end
 
-        if additional_task != "Y" || "y" && !additional_task != "N" || "n"
+        if additional_task != "Y" || additional_task != "y" && additional_task != "N" || additional_task != "n"
             puts "Sorry, we couldn't understand your response. Please type 'Y' for yes or 'N' for no. Thanks!"
             puts "\n"
             puts "Otherwise, you can exit and then log back in later if there's a specific task that you would like to do. Thanks!"
