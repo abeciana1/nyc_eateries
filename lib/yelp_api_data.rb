@@ -27,7 +27,7 @@ search = res["business_search_results"].collect do |x|
     x["business"]["is_yelp_guaranteed"] == false
 end
 
-binding.pry
+# binding.pry
 
 
 # binding.pry
@@ -47,5 +47,5 @@ binding.pry
 #* t.integer "cuisine_id"
 
 # ["business_search_results"][0][]
-puts response.read_body
+
 

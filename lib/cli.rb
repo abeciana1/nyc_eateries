@@ -33,7 +33,7 @@ class CLI
                 restart = gets.chomp
                 if restart == "Y" || restart == "y"
                     puts "Restarting the app now ..."
-                    CLI.greet 
+                    CLI.run
                 else
                     puts "No problem, come back anytime."
                 end
@@ -145,11 +145,11 @@ class CLI
         when "1" #search by name." 
             Restaurant.search_by_name(user)
         when "2" #search by neighborhood."
-            Restaurant.search_by_neighborhood
+            Restaurant.search_by_neighborhood(user)
         when "3" #recieve a random restaurant." 
-            Restaurant.find_random_by_neighborhood
+            Restaurant.find_random_by_neighborhood(user)
         when "4" #receive curated cuisine recommendations." 
-            Restaurant.recommendations_by_cuisine
+            Restaurant.recommendations_by_cuisine(user)
         when "5" #go back to the main menu
             CLI.main_menu(user)
         when "6" #exit from this app"

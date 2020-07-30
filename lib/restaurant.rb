@@ -14,6 +14,10 @@ class Restaurant < ActiveRecord::Base
     puts "\n"
     puts "Enter the number of the restaurant you would like to expand details on:"
     num_entry = STDIN.gets.chomp.to_i
+    if num_entry > result.count || num_entry == 0
+      puts "Invalid entry, try again."
+      Restaurant.search_by_name(user)
+    end
     result[num_entry - 1].expand_details(user)
     result
   end
@@ -30,26 +34,43 @@ class Restaurant < ActiveRecord::Base
     puts "\n"
   end
   
-  def self.search_by_neighborhood
+  def self.search_by_neighborhood(user)
     puts "Choose a location from the list below. Enter a number."
     uniq_locations_with_index
     input = STDIN.gets.chomp.to_i
+    if input > uniq_locations.count || input == 0
+      puts "Invalid entry, try again."
+      Restaurant.search_by_neighborhood(user)
+    end
     puts "========="
     result = all.where(neighborhood: uniq_locations[input - 1])
-    puts "\n"
     print_result(result)
+    puts "\n"
+    puts "Enter the number of the restaurant you would like to expand details on:"
+    num_entry = STDIN.gets.chomp.to_i
+    if num_entry > result.count || num_entry == 0
+      puts "Invalid entry, try again."
+      Restaurant.search_by_neighborhood(user)
+    end
+    result[num_entry - 1].expand_details(user)
     result
   end
   
-  def self.find_random_by_neighborhood
+  def self.find_random_by_neighborhood(user)
     puts "Choose a location from the list below. Enter a number."
     uniq_locations_with_index
     input = STDIN.gets.chomp.to_i
+    if input > uniq_locations.count || input == 0
+      puts "Invalid entry, try again."
+      Restaurant.find_random_by_neighborhood(user)
+    end
     puts "========="
     list = all.where(neighborhood: uniq_locations[input - 1])
     result = [list.sample]
-    puts "\n"
     print_result(result)
+    puts "\n"
+
+    result[0].expand_details(user)
     result
   end
   
@@ -57,8 +78,6 @@ class Restaurant < ActiveRecord::Base
     case restaurants.count
     when 0
       puts "There is no restaurant matched."
-    when 1
-      restaurants[0].show_details
     else
       restaurants.each_with_index { |restaurant, index|
         puts index + 1
@@ -87,6 +106,7 @@ class Restaurant < ActiveRecord::Base
       self.restaurant_page(user)
     when "N" || "n"
       puts "No problem, we'll return you to the main menu!"
+      CLI.restaurant_search_menu(user)
     else
       puts "Sorry we didn't catch that, please try again."
       self.expand_details(user)
@@ -183,18 +203,29 @@ class Restaurant < ActiveRecord::Base
     puts "\n"
   end
 
-  def self.recommendations_by_cuisine
+  def self.recommendations_by_cuisine(user)
     puts "Choose a cuisine from the list below. Enter a number."
     uniq_cuisines_with_index
     input = STDIN.gets.chomp.to_i
+    if input > uniq_cuisines.count || input == 0
+      puts "Invalid input, please try again."
+      Restaurant.recommendations_by_cuisine(user)
+    end
     puts "========="
     result = all.where(cuisine_id: uniq_cuisines[input - 1].id)
       .select {|r| r.average_star_count >= 4 }
       .sort_by { |r| r.average_star_count }
       .reverse
       .take(5)
-      puts "\n"
     print_result(result)
+    puts "\n"
+    puts "Enter the number of the restaurant you would like to expand details on:"
+    num_entry = STDIN.gets.chomp.to_i
+    if num_entry > result.count
+      puts "Invalid entry, try again."
+      Restaurant.recommendations_by_cuisine(user)
+    end
+    result[num_entry - 1].expand_details(user)
     result
   end
 
