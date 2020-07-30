@@ -14,7 +14,7 @@ require "json-prettyprint"
 
 # request = Net::HTTP::Get.new(url)
 # request["x-rapidapi-host"] = 'yelp-com.p.rapidapi.com'
-# request["x-rapidapi-key"] = '9e12ec2159msh69018ee268c2872p1eefffjsne2d01d87e5e6'
+# request["x-rapidapi-key"] = '''
 
 # response = http.request(request)
 # data = JSON.pretty_generate(JSON.parse(response.body))
