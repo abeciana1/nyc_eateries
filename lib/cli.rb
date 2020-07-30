@@ -87,6 +87,10 @@ class CLI
         user_last_name = gets.chomp
         puts "Please create a username:"
         username_create = gets.chomp
+        if User.find_by(username: username_create)
+            puts "Sorry username #{username_create} already exist. Try something else."
+            create_account
+        end
         puts "One more thing, please create a password:"
         user_password_create = gets.chomp
         User.create(first_name: user_first_name, last_name: user_last_name, username: username_create, password: user_password_create)
