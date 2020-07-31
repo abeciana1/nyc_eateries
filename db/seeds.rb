@@ -17,34 +17,7 @@ DEFAULT_TERM = "dinner"
 DEFAULT_LOCATION = "San Francisco, CA"
 SEARCH_LIMIT = 20
 
-
-# Make a request to the Fusion search endpoint. Full documentation is online at:
-# https://www.yelp.com/developers/documentation/v3/business_search
-#
-# term - search term used to find businesses
-# location - what geographic location the search should happen
-#
-# Examples
-#
-#   search("burrito", "san francisco")
-#   # => {
-#          "total": 1000000,
-#          "businesses": [
-#            "name": "El Farolito"
-#            ...
-#          ]
-#        }
-#
-#   search("sea food", "Seattle")
-#   # => {
-#          "total": 1432,
-#          "businesses": [
-#            "name": "Taylor Shellfish Farms"
-#            ...
-#          ]
-#        }
-#
-# Returns a parsed json object of the request
+#search from API
 def search(term, location)
   url = "#{API_HOST}#{SEARCH_PATH}"
   params = {
@@ -57,19 +30,20 @@ def search(term, location)
   response.parse
 end
 
-def create_restaurant(cuisine, location)
+def create_restaurants(cuisine, location)
   search(cuisine, location)["businesses"].each { |biz|
     biz_name = biz["name"]
     biz_address = biz["location"]["display_address"][0]
     biz_website = biz["url"]
+    biz_hour = get_business_hour(biz["id"])
     biz_phone = biz["display_phone"]
     biz_neighborhood = location
     biz_cuisine = Cuisine.find_or_create_by(name: cuisine)
     biz_cuisine_id = biz_cuisine.id
-    
     Restaurant.create(name: biz_name,
                       address: biz_address,
                       website: biz_website,
+                      hours: biz_hour,
                       phone: biz_phone,
                       neighborhood: biz_neighborhood,
                       cuisine_id: biz_cuisine_id
@@ -77,98 +51,25 @@ def create_restaurant(cuisine, location)
   }
 end
 
-create_restaurant("Japanese", "Astoria")
+#search business details from API
+def business(business_id)
+  url = "#{API_HOST}#{BUSINESS_PATH}#{business_id}"
+  response = HTTP.auth("Bearer #{API_KEY}").get(url)
+  response.parse
+end
 
+def get_business_hour(business_id)
+  business(business_id)
+  open_hour = business(business_id)["hours"][0]["open"]
+  week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+  open_hour.each_with_object([]) { |day, result|
+  index = day["day"]
+  result << "#{week[index]} #{day["start"]} - #{day["end"]}" 
+}.join("\n")
+end
 
-
-
-
-# Look up a business by a given business id. Full documentation is online at:
-# https://www.yelp.com/developers/documentation/v3/business
-# 
-# business_id - a string business id
-#
-# Examples
-# 
-#   business("yelp-san-francisco")
-#   # => {
-  #          "name": "Yelp",
-  #          "id": "yelp-san-francisco"
-  #          ...
-  #        }
-  #
-  # Returns a parsed json object of the request
-  def business(business_id)
-    url = "#{API_HOST}#{BUSINESS_PATH}#{business_id}"
-    response = HTTP.auth("Bearer #{API_KEY}").get(url)
-    response.parse
-  end
-  
-
-# options = {}
-# OptionParser.new do |opts|
-#   opts.banner = "Example usage: ruby sample.rb (search|lookup) [options]"
-
-#   opts.on("-tTERM", "--term=TERM", "Search term (for search)") do |term|
-#     options[:term] = term
-#   end
-
-#   opts.on("-lLOCATION", "--location=LOCATION", "Search location (for search)") do |location|
-#     options[:location] = location
-#   end
-
-#   opts.on("-bBUSINESS_ID", "--business-id=BUSINESS_ID", "Business id (for lookup)") do |id|
-#     options[:business_id] = id
-#   end
-
-#   opts.on("-h", "--help", "Prints this help") do
-#     puts opts
-#     exit
-#   end
-# end.parse!
-
-
-# command = ARGV
-
-
-# case command.first
-# when "search"
-#   term = options.fetch(:term, DEFAULT_TERM)
-#   location = options.fetch(:location, DEFAULT_LOCATION)
-
-#   raise "business_id is not a valid parameter for searching" if options.key?(:business_id)
-
-#   response = search(term, location)
-
-#   puts "Found #{response["total"]} businesses. Listing #{SEARCH_LIMIT}:"
-#   response["businesses"].each {|biz| puts "name: #{biz["name"]} | business_id #{biz["id"]}"}
-# when "lookup"
-#   business_id = options.fetch(:business_id, DEFAULT_BUSINESS_ID)
-
-
-#   raise "term is not a valid parameter for lookup" if options.key?(:term)
-#   raise "location is not a valid parameter for lookup" if options.key?(:lookup)
-
-#   response = business(business_id)
-#   result = JSON.pretty_generate(response)
-#   name = response["name"]
-#   url = response["url"]
-#   phone = response["display_phone"]
-#   cuisine = response["categories"][0]["title"]
-#   address = response["location"]["display_address"][0]
-
-#   puts "Found business with id #{business_id}:"
-#   puts "name: #{name}"
-#   puts "url: #{url}"
-#   puts "phone: #{phone}"
-#   puts "cuisine: #{cuisine}"
-#   puts "address: #{address}"
-#   # puts JSON.pretty_generate(response)
-# else
-#   puts "Please specify a command: search or lookup"
-# end
-
-
+create_restaurants("Japanese", "Astoria")
+# get_business_hour("WavvLdfdP6g8aZTtbBQHTw")
 
 
 # User.delete_all
