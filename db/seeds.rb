@@ -2,9 +2,15 @@ require "json"
 require "http"
 require "optparse"
 require "pry"
+require "dotenv"
+Dotenv.load
 
-API_KEY = "b1YkkcmYI-FMl9ReR-Z-y8sCgLny-cXHzpPPKY1oWrVwqGoiyci4gWJQCbW5GNYAnmsOG08J1sN2IrkRvx-m7QB6cfxkwju_8Zl_h7gZ96Gidix_hgIWdFhhICkjX3Yx"
+User.delete_all
+Restaurant.delete_all
+Review.delete_all
+Cuisine.delete_all
 
+API_KEY = ENV["YELP_KEY"]
 
 # Constants, do not change these
 API_HOST = "https://api.yelp.com"
@@ -25,7 +31,7 @@ def search(term, location)
     location: location,
     limit: SEARCH_LIMIT
   }
-
+  
   response = HTTP.auth("Bearer #{API_KEY}").get(url, params: params)
   response.parse
 end
@@ -59,29 +65,29 @@ def business(business_id)
 end
 
 def get_business_hour(business_id)
-  business(business_id)
-  open_hour = business(business_id)["hours"][0]["open"]
+  result = business(business_id)
+
+  return "For business hour, please contact restaurant" if result["hours"].nil?
+
+  open_hour = result["hours"][0]["open"]
   week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
   open_hour.each_with_object([]) { |day, result|
-  index = day["day"]
-  result << "#{week[index]} #{day["start"]} - #{day["end"]}" 
-}.join("\n")
+    index = day["day"]
+    result << "#{week[index]} #{day["start"]} - #{day["end"]}" 
+  }.join("\n")
 end
 
 create_restaurants("Japanese", "Astoria")
-# get_business_hour("WavvLdfdP6g8aZTtbBQHTw")
+create_restaurants("Middle Eastern", "East Village")
+create_restaurants("Brazilian", "Hell's Kitchen")
 
 
-# User.delete_all
-# Restaurant.delete_all
-# Review.delete_all
-# Cuisine.delete_all
 
 # # * User
-# alex = User.find_or_create_by(first_name: "Alex", last_name: "Beciana", username: "alexb", password: "password")
-# junko = User.find_or_create_by(first_name: "Junko", last_name: "Tahara", username: "junkot", password: "pass")
+alex = User.find_or_create_by(first_name: "Alex", last_name: "Beciana", username: "alexb", password: "password")
+junko = User.find_or_create_by(first_name: "Junko", last_name: "Tahara", username: "junkot", password: "pass")
 
-# #  * Cuisine
+# # #  * Cuisine
 # cuisine1 = Cuisine.create(name: "Japanese")
 # cuisine2 = Cuisine.create(name: "Brazilian")
 # cuisine3 = Cuisine.create(name: "Middle Eastern")
@@ -101,14 +107,14 @@ create_restaurants("Japanese", "Astoria")
 
 # rest6 = Restaurant.find_or_create_by(name: "Ravagh", address: "11 East 30th St, New York, NY 10016", menu_link: "https://ravaghrestaurants.com/", website: "https://ravaghrestaurants.com/", yelp_page: "https://www.yelp.com/biz/ravagh-persian-grill-new-york-2", hours: "11:45 am - 9:00 pm", phone: "(555) 555-5555", about: "Middle East", neighborhood: "East Villege", credit_card: true, reservations: false, cuisine_id: cuisine3.id)
 
-# #  * Review
-# review1 = Review.find_or_create_by(star_rating: 5, desc: "food was good", user_id: alex.id, restaurant_id: rest1.id)
-# review2 = Review.find_or_create_by(star_rating: 5, desc: "food was good", user_id: alex.id, restaurant_id: rest2.id)
-# review3 = Review.find_or_create_by(star_rating: 5, desc: "food was good", user_id: alex.id, restaurant_id: rest3.id)
-# review4 = Review.find_or_create_by(star_rating: 5, desc: "food was good", user_id: alex.id, restaurant_id: rest4.id)
-# review5 = Review.find_or_create_by(star_rating: 5, desc: "food was good", user_id: alex.id, restaurant_id: rest5.id)
-# review6 = Review.find_or_create_by(star_rating: 5, desc: "food was good", user_id: alex.id, restaurant_id: rest6.id)
-# review7 = Review.find_or_create_by(star_rating: 3, desc: "food was ok", user_id: junko.id, restaurant_id: rest1.id)
-# review8 = Review.find_or_create_by(star_rating: 1, desc: "food was not good", user_id: junko.id, restaurant_id: rest3.id)
-# review9 = Review.find_or_create_by(star_rating: 4, desc: "food was good", user_id: junko.id, restaurant_id: rest4.id)
-# review10 = Review.find_or_create_by(star_rating: 1, desc: "food was not good", user_id: junko.id, restaurant_id: rest5.id)
+#  * Review
+review1 = Review.find_or_create_by(star_rating: 5, desc: "food was good", user_id: alex.id, restaurant_id: Restaurant.find(1).id)
+review2 = Review.find_or_create_by(star_rating: 5, desc: "food was good", user_id: alex.id, restaurant_id: Restaurant.find(2).id)
+review3 = Review.find_or_create_by(star_rating: 5, desc: "food was good", user_id: alex.id, restaurant_id: Restaurant.find(3).id)
+review4 = Review.find_or_create_by(star_rating: 5, desc: "food was good", user_id: alex.id, restaurant_id: Restaurant.find(4).id)
+review5 = Review.find_or_create_by(star_rating: 5, desc: "food was good", user_id: alex.id, restaurant_id: Restaurant.find(5).id)
+review6 = Review.find_or_create_by(star_rating: 5, desc: "food was good", user_id: alex.id, restaurant_id: Restaurant.find(6).id)
+review7 = Review.find_or_create_by(star_rating: 3, desc: "food was ok", user_id: junko.id, restaurant_id: Restaurant.find(1).id)
+review8 = Review.find_or_create_by(star_rating: 1, desc: "food was not good", user_id: junko.id, restaurant_id: Restaurant.find(2).id)
+review9 = Review.find_or_create_by(star_rating: 4, desc: "food was good", user_id: junko.id, restaurant_id: Restaurant.find(3).id)
+review10 = Review.find_or_create_by(star_rating: 1, desc: "food was not good", user_id: junko.id, restaurant_id: Restaurant.find(4).id)
