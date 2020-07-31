@@ -39,7 +39,7 @@ end
 def create_restaurants(cuisine, location)
   search(cuisine, location)["businesses"].each { |biz|
     biz_name = biz["name"]
-    biz_address = biz["location"]["display_address"][0]
+    biz_address = biz["location"]["display_address"].join(', ')
     biz_website = biz["url"]
     biz_hour = get_business_hour(biz["id"])
     biz_phone = biz["display_phone"]
