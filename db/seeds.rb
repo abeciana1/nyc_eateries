@@ -71,10 +71,18 @@ def get_business_hour(business_id)
 
   open_hour = result["hours"][0]["open"]
   week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-  open_hour.each_with_object([]) { |day, result|
-    index = day["day"]
-    result << "#{week[index]} #{day["start"]} - #{day["end"]}" 
-  }.join("\n")
+  hours = open_hour.each_with_object({}) { |item, result|
+    if result[item["day"]]
+      result[item["day"]] << "#{item["start"]} - #{item["end"]}"
+    else
+      result[item["day"]] = ["#{item["start"]} - #{item["end"]}"]
+    end
+  }
+  arr = []
+  hours.each { |k,v|
+    arr << "#{week[k]} #{v.join(' ')}"
+  }
+  arr
 end
 
 create_restaurants("Japanese", "Astoria")
